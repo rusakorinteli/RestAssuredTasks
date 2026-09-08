@@ -1,5 +1,6 @@
 package Calls.Booking;
 
+import Models.Booking.BookingRequestModel;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -38,5 +39,17 @@ public class BookingCalls {
                 .then()
                 .extract()
                 .response();
+    }
+
+
+    public Response addBookingByModel(BookingRequestModel bookingRequestModel){
+        return given()
+                .contentType("Application/json")
+                .body(bookingRequestModel) // სერიალიზაცია ხდება აქ, აღარ გადავცემთ პირდაპირ ჯეისონს
+                .when()
+                .post("https://restful-booker.herokuapp.com/booking")
+                .then()
+                .extract().response();
+
     }
 }

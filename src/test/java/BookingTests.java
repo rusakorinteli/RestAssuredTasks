@@ -10,4 +10,13 @@ public class BookingTests {
                 .statusCodeChecks()
                 .getBookingId();
     }
+
+    @Test
+    public void AddBookingWithModels(){
+        new BookingSteps()
+                .addBookingWithModel()
+                .statusCodeChecks()
+                .checkBookingData()
+                .getBookingId();
+    }
 }
