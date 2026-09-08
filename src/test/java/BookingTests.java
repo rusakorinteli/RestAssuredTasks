@@ -29,4 +29,16 @@ public class BookingTests {
                 .getBooking()
                 .checkBookingDataWithJsonPath();
     }
+
+    @Test
+    public void deserialazationTest() {
+        new BookingSteps()
+                .addBookingWithModel()
+                .statusCodeChecks()
+                .getBookingId()
+                .getBooking()
+                .bookingResponseDeserialization()
+                .checkDataAfterDeserialization();
+
+    }
 }

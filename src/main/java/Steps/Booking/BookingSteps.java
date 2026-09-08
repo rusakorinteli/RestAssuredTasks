@@ -13,6 +13,7 @@ public class BookingSteps {
     int bookingId;
     Response BookingResponse;
     BookingRequestModel bookingRequestModel = new BookingRequestModel();
+    BookingRequestModel bookingResponseModel;
 
     public BookingSteps addBooking(){
         BookingResponse = bookingCalls.addBooking("Rusa", "Korinteli", 500);
@@ -94,4 +95,25 @@ public class BookingSteps {
 
         return this;
     }
+
+    //Task 4
+
+    public BookingSteps bookingResponseDeserialization(){
+        bookingResponseModel = BookingResponse.as(BookingRequestModel.class);
+        return this;
+    } // აქ ხდება დესერიალიზაცია ანუ ჯესიონის რესპონსი გარდაიქმნება ჯავა ობიექტად
+
+
+    public BookingSteps checkDataAfterDeserialization(){
+        Assert.assertEquals(bookingResponseModel.firstname, bookingRequestModel.firstname);
+        Assert.assertEquals(bookingResponseModel.lastname, bookingRequestModel.lastname);
+        Assert.assertEquals(bookingResponseModel.totalprice, bookingRequestModel.totalprice);
+        Assert.assertEquals(bookingResponseModel.additionalneeds, bookingRequestModel.additionalneeds);
+        Assert.assertEquals(bookingResponseModel.bookingdates.checkin, bookingRequestModel.bookingdates.checkin);
+        Assert.assertEquals(bookingResponseModel.bookingdates.checkout, bookingRequestModel.bookingdates.checkout);
+
+        return this;
+    }
+
+
 }
