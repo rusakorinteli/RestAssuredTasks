@@ -4,6 +4,7 @@ import Calls.Booking.BookingCalls;
 import Models.Booking.BookingDates;
 import Models.Booking.BookingRequestModel;
 import io.restassured.response.Response;
+import org.testng.Assert;
 
 import static org.hamcrest.Matchers.equalTo;
 
@@ -68,6 +69,28 @@ public class BookingSteps {
                         equalTo(bookingRequestModel.bookingdates.checkout))
                 .body("booking.additionalneeds",
                         equalTo(bookingRequestModel.additionalneeds));
+
+        return this;
+    }
+
+
+    // task 3
+
+    public BookingSteps getBooking(){
+        BookingResponse = bookingCalls.getBooking(bookingId);
+        return this;
+    }
+
+    public BookingSteps checkBookingDataWithJsonPath(){
+        String firstName = BookingResponse.jsonPath().getString("firstname");
+        String lastName = BookingResponse.jsonPath().getString("lastname");
+        int totalPrice = BookingResponse.jsonPath().getInt("totalprice");
+        String aditonalNeeds = BookingResponse.jsonPath().getString("additionalneeds");
+
+        Assert.assertEquals(firstName, bookingRequestModel.firstname);
+        Assert.assertEquals(lastName, bookingRequestModel.lastname);
+        Assert.assertEquals(totalPrice, bookingRequestModel.totalprice);
+        Assert.assertEquals(aditonalNeeds, bookingRequestModel.additionalneeds);
 
         return this;
     }

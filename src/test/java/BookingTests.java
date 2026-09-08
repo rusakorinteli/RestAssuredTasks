@@ -19,4 +19,14 @@ public class BookingTests {
                 .checkBookingData()
                 .getBookingId();
     }
+
+    @Test
+    public void getAndValidateBookingData(){
+        new BookingSteps()
+                .addBookingWithModel()
+                .statusCodeChecks()
+                .getBookingId()
+                .getBooking()
+                .checkBookingDataWithJsonPath();
+    }
 }
