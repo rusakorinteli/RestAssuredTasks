@@ -1,5 +1,8 @@
 package Models.Booking;
 
+import lombok.Data;
+
+@Data
 public class BookingRequestModel {
     public String firstname;
     public String lastname;
