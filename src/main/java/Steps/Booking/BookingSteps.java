@@ -3,12 +3,13 @@ package Steps.Booking;
 import Calls.Booking.BookingCalls;
 import Models.Booking.BookingDates;
 import Models.Booking.BookingRequestModel;
+import Steps.CommonSteps;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class BookingSteps {
+public class BookingSteps extends CommonSteps <BookingSteps, BookingRequestModel> {
     BookingCalls bookingCalls = new BookingCalls();
     int bookingId;
     Response BookingResponse;
@@ -111,6 +112,32 @@ public class BookingSteps {
         Assert.assertEquals(bookingResponseModel.additionalneeds, bookingRequestModel.additionalneeds);
         Assert.assertEquals(bookingResponseModel.bookingdates.checkin, bookingRequestModel.bookingdates.checkin);
         Assert.assertEquals(bookingResponseModel.bookingdates.checkout, bookingRequestModel.bookingdates.checkout);
+
+        return this;
+    }
+
+    // Generic CommonSteps Task
+
+    public BookingSteps addBookingGeneric(){
+        BookingResponse = bookingCalls.addBookingByModel(data);
+        bookingId = BookingResponse
+                .jsonPath()
+                .getInt("bookingid");
+
+        return this;
+    }
+
+    public BookingSteps checkBookingGeneric() {
+
+        String firstName = BookingResponse.jsonPath().getString("firstname");
+        String lastName = BookingResponse.jsonPath().getString("lastname");
+        int totalPrice = BookingResponse.jsonPath().getInt("totalprice");
+        String additionalNeeds = BookingResponse.jsonPath().getString("additionalneeds");
+
+        Assert.assertEquals(firstName, data.firstname);
+        Assert.assertEquals(lastName, data.lastname);
+        Assert.assertEquals(totalPrice, data.totalprice);
+        Assert.assertEquals(additionalNeeds, data.additionalneeds);
 
         return this;
     }
